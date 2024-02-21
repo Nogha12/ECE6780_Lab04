@@ -1,0 +1,25 @@
+--cpu Cortex-M0
+"ece6780_p4_noahlomu\startup_stm32f072xb.o"
+"ece6780_p4_noahlomu\main.o"
+"ece6780_p4_noahlomu\stm32f0xx_it.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_msp.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_tim.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_tim_ex.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_rcc.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_rcc_ex.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_i2c.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_i2c_ex.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_gpio.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_dma.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_pwr.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_pwr_ex.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_flash.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_flash_ex.o"
+"ece6780_p4_noahlomu\stm32f0xx_hal_exti.o"
+"ece6780_p4_noahlomu\system_stm32f0xx.o"
+--strict --scatter "ECE6780_P4_NoahLomu\ECE6780_P4_NoahLomu.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "ECE6780_P4_NoahLomu.map" -o ECE6780_P4_NoahLomu\ECE6780_P4_NoahLomu.axf
