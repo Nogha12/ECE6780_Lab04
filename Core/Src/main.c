@@ -107,7 +107,7 @@ int main(void)
 
   clkSpeed = HAL_RCC_GetHCLKFreq();
   USART3->CR1 |= (0x1 << 2) | (0x1 << 3); // enable TX and RX
-  USART3->CR1 |= (0x1 << 5); // enable interrupts from receive register not empty
+  //USART3->CR1 |= (0x1 << 5); // enable interrupts from receive register not empty
   USART3->BRR &= 0x0;
   USART3->BRR |= clkSpeed / targetBaud; // set baud rate clock divisor
   
