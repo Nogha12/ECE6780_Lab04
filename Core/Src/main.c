@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stm32f0xx_it.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,6 +41,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+char uartInputChar;
+int inputReceivedFlag;
 
 /* USER CODE END PV */
 
@@ -66,6 +68,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
   int clkSpeed;
   int targetBaud = 115200;
+  int activePin;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -107,7 +110,7 @@ int main(void)
 
   clkSpeed = HAL_RCC_GetHCLKFreq();
   USART3->CR1 |= (0x1 << 2) | (0x1 << 3); // enable TX and RX
-  //USART3->CR1 |= (0x1 << 5); // enable interrupts from receive register not empty
+  USART3->CR1 |= (0x1 << 5); // enable interrupts from receive register not empty
   USART3->BRR &= 0x0;
   USART3->BRR |= clkSpeed / targetBaud; // set baud rate clock divisor
   
@@ -118,11 +121,15 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   USART3->CR1 |= (0x1 << 0); // enable USART 3
+  txString("Awaiting input: \n\r");
   while (1)
   {
     /* USER CODE END WHILE */
+    
+    /* USER CODE BEGIN 3 */
     //txString("Noah Lomu\n\r");
     //HAL_Delay(1000);
+    /* Old code
     switch(rxCharacter())
     {
       case 'r':
@@ -141,40 +148,77 @@ int main(void)
         txString("Error, key not valid.\n\r");
         break;
     }
-    /* USER CODE BEGIN 3 */
+    */
+    //txString("inputReceivedFlag = ");
+    //txCharacter(inputReceivedFlag + 48);
+    //txString(".\n\r");
+    
+    HAL_Delay(1); // only check every milisecond
+    
+    if (inputReceivedFlag == 1)
+    {
+      switch(uartInputChar)
+      {
+        case 'r':
+          activePin = 6; // Set active pin to C6 (red LED)
+          break;
+        case 'b':
+          activePin = 7; // Set active pin to C7 (blue LED)
+          break;
+        case 'o':
+          activePin = 8; // Set active pin to C8 (orange LED)
+          break;
+        case 'g':
+          activePin = 9; // Set active pin to C9 (green LED)
+          break;
+        case '0':
+          if (activePin < 6 || activePin > 9)
+          {
+            txString("Error: please first choose a pin (r, b, o, or g).\n\r");
+            break;
+          }
+          GPIOC->ODR &= ~(0x1 << activePin); // Turn off active pin
+          txString("Pin ");
+          txCharacter(activePin + 48);
+          txString(" was turned off.\n\r");
+          txString("\nAwaiting input: \n\r");
+          activePin = -1;
+          break;
+        case '1':
+          if (activePin < 6 || activePin > 9)
+          {
+            txString("Error: please first choose a pin (r, b, o, or g).\n\r");
+            break;
+          }
+          GPIOC->ODR |= (0x1 << activePin); // Turn on active pin
+          txString("Pin ");
+          txCharacter(activePin + 48);
+          txString(" was turned on.\n\r");
+          txString("\nAwaiting input: \n\r");
+          activePin = -1;
+          break;
+        case '2':
+          if (activePin < 6 || activePin > 9)
+          {
+            txString("Error: please first choose a pin (r, b, o, or g).\n\r");
+            break;
+          }
+          GPIOC->ODR ^= (0x1 << activePin); // Toggle active pin
+          txString("Pin ");
+          txCharacter(activePin + 48);
+          txString(" was toggled.\n\r");
+          txString("\nAwaiting input: \n\r");
+          activePin = -1;
+          break;
+        default:
+          txString("Error: Please enter r, b, o, or g followed by 0, 1, or 2.\n\r");
+          activePin = -1;
+          break;
+      }
+      inputReceivedFlag = 0;
+    }
   }
   /* USER CODE END 3 */
-}
-
-/**
-  * @brief Transmits a character via USART 3
-  */
-void txCharacter(char data)
-{
-  while ((USART3->ISR & (0x1 << 7)) == 0x0);
-  USART3->TDR = data;
-  return;
-}
-
-/**
-  * @brief Transmits a string via USART 3
-  */
-void txString(char* data)
-{
-  for (int i = 0; data[i] != '\0'; i++)
-  {
-    txCharacter(data[i]);
-  }
-  return;
-}
-
-/**
-  * @brief Receives a character via USART 3
-  */
-char rxCharacter(void)
-{
-  while ((USART3->ISR & (0x1 << 5)) == 0x0);
-  return USART3->RDR;
 }
 
 /**
@@ -212,6 +256,45 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+/**
+  * @brief Transmits a character via USART 3
+  */
+void txCharacter(char data)
+{
+  while ((USART3->ISR & (0x1 << 7)) == 0x0);
+  USART3->TDR = data;
+  return;
+}
+
+/**
+  * @brief Transmits a string via USART 3
+  */
+void txString(char* data)
+{
+  for (int i = 0; data[i] != '\0'; i++)
+  {
+    txCharacter(data[i]);
+  }
+  return;
+}
+
+/**
+  * @brief Receives a character via USART 3
+  */
+char rxCharacter(void)
+{
+  while ((USART3->ISR & (0x1 << 5)) == 0x0);
+  return USART3->RDR;
+}
+
+/**
+  * @brief This function handles USART 3 interrupts.
+  */
+void USART3_4_IRQHandler(void)
+{
+  inputReceivedFlag = 1;
+  uartInputChar = USART3->RDR;
+}
 
 /* USER CODE END 4 */
 

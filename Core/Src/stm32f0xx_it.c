@@ -141,11 +141,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
-/**
-  * @brief This function handles USART 3 interrupts.
-  */
-void USART3_4_IRQHandler(void)
-{
-}
+
 /* USER CODE END 1 */
 
