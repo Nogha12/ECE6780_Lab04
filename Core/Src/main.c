@@ -49,6 +49,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void txCharacter(char data);
 void txString(char* data);
+char rxCharacter(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -81,6 +82,7 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
   RCC->AHBENR |= RCC_AHBENR_GPIOBEN; // Enable GPIO B clock
+  RCC->AHBENR |= RCC_AHBENR_GPIOCEN; // Enable GPIO C clock
   RCC->APB1ENR |= RCC_APB1ENR_USART3EN; // Enable USART 3 clock
   
   /* USER CODE END SysInit */
@@ -95,11 +97,22 @@ int main(void)
   GPIOB->PUPDR &= ~((0x3 << 10*2) | (0x3 << 11*2)); // no pull-up/pull-down
   GPIOB->AFR[1] &= ~((0xF << ((10 - 8)*4)) | (0xF << ((11 - 8)*4)));
   GPIOB->AFR[1] |= (0x4 << ((10 - 8)*4)) | (0x4 << ((11 - 8)*4)); // alternate function 4
+  
+  // Configure GPIO C pins 6, 7, 8, and 9 (LED pins)
+  GPIOC->MODER &= !((0x3 << 6*2) | (0x3 << 7*2) | (0x3 << 8*2) | (0x3 << 9*2));
+  GPIOC->MODER |= (0x1 << 6*2) | (0x1 << 7*2) | (0x1 << 8*2) | (0x1 << 9*2); // output mode
+  GPIOC->OTYPER &= !((0x1 << 6) | (0x1 << 7) | (0x1 << 8) | (0x1 << 9)); // push-pull
+  GPIOC->OSPEEDR &= !((0x3 << 6*2) | (0x3 << 7*2) | (0x3 << 8*2) | (0x3 << 9*2)); // low-speed
+  GPIOC->PUPDR &= !((0x3 << 6*2) | (0x3 << 7*2) | (0x3 << 8*2) | (0x3 << 9*2)); // no pull-up/pull-down
 
   clkSpeed = HAL_RCC_GetHCLKFreq();
   USART3->CR1 |= (0x1 << 2) | (0x1 << 3); // enable TX and RX
+  USART3->CR1 |= (0x1 << 5); // enable interrupts from receive register not empty
   USART3->BRR &= 0x0;
-  USART3->BRR |= clkSpeed / targetBaud; // set 
+  USART3->BRR |= clkSpeed / targetBaud; // set baud rate clock divisor
+  
+  NVIC_EnableIRQ(USART3_4_IRQn); // enable USART 3 interrupts
+  NVIC_SetPriority(USART3_4_IRQn, 2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,13 +121,34 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    txString("Noah Lomu\n\r");
-    HAL_Delay(1000);
+    //txString("Noah Lomu\n\r");
+    //HAL_Delay(1000);
+    switch(rxCharacter())
+    {
+      case 'r':
+        GPIOC->ODR ^= (0x1 << 6); // Toggle pin C6 (red LED)
+        break;
+      case 'b':
+        GPIOC->ODR ^= (0x1 << 7); // Toggle pin C7 (blue LED)
+        break;
+      case 'o':
+        GPIOC->ODR ^= (0x1 << 8); // Toggle pin C8 (orange LED)
+        break;
+      case 'g':
+        GPIOC->ODR ^= (0x1 << 9); // Toggle pin C9 (green LED)
+        break;
+      default:
+        txString("Error, key not valid.\n\r");
+        break;
+    }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
 
+/**
+  * @brief Transmits a character via USART 3
+  */
 void txCharacter(char data)
 {
   while ((USART3->ISR & (0x1 << 7)) == 0x0);
@@ -122,6 +156,9 @@ void txCharacter(char data)
   return;
 }
 
+/**
+  * @brief Transmits a string via USART 3
+  */
 void txString(char* data)
 {
   for (int i = 0; data[i] != '\0'; i++)
@@ -129,6 +166,15 @@ void txString(char* data)
     txCharacter(data[i]);
   }
   return;
+}
+
+/**
+  * @brief Receives a character via USART 3
+  */
+char rxCharacter(void)
+{
+  while ((USART3->ISR & (0x1 << 5)) == 0x0);
+  return USART3->RDR;
 }
 
 /**
