@@ -47,7 +47,8 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void txCharacter(char data);
+void txString(char* data);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -62,7 +63,8 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  int clkSpeed;
+  int targetBaud = 115200;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -71,30 +73,62 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  RCC->AHBENR |= RCC_AHBENR_GPIOBEN; // Enable GPIO B clock
+  RCC->APB1ENR |= RCC_APB1ENR_USART3EN; // Enable USART 3 clock
+  
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
+  // Configure GPIO B pins 10 and 11 to connect to USART 3
+  GPIOB->MODER &= ~((0x3 << 10*2) | (0x3 << 11*2));
+  GPIOB->MODER |= (0x2 << 10*2) | (0x2 << 11*2); // alternate mode
+  GPIOB->OTYPER &= ~((0x1 << 10) | (0x1 << 11)); // push-pull
+  GPIOB->OSPEEDR &= ~((0x3 << 10*2) | (0x3 << 11*2)); // low-speed
+  GPIOB->PUPDR &= ~((0x3 << 10*2) | (0x3 << 11*2)); // no pull-up/pull-down
+  GPIOB->AFR[1] &= ~((0xF << ((10 - 8)*4)) | (0xF << ((11 - 8)*4)));
+  GPIOB->AFR[1] |= (0x4 << ((10 - 8)*4)) | (0x4 << ((11 - 8)*4)); // alternate function 4
 
+  clkSpeed = HAL_RCC_GetHCLKFreq();
+  USART3->CR1 |= (0x1 << 2) | (0x1 << 3); // enable TX and RX
+  USART3->BRR &= 0x0;
+  USART3->BRR |= clkSpeed / targetBaud; // set 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  USART3->CR1 |= (0x1 << 0); // enable USART 3
   while (1)
   {
     /* USER CODE END WHILE */
-
+    txString("Noah Lomu\n\r");
+    HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
+}
+
+void txCharacter(char data)
+{
+  while ((USART3->ISR & (0x1 << 7)) == 0x0);
+  USART3->TDR = data;
+  return;
+}
+
+void txString(char* data)
+{
+  for (int i = 0; data[i] != '\0'; i++)
+  {
+    txCharacter(data[i]);
+  }
+  return;
 }
 
 /**

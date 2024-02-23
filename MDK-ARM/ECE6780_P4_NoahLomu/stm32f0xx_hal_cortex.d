@@ -1,29 +1,31 @@
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Core/Inc/stm32f0xx_hal_conf.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f072xb.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/CMSIS/Include/core_cm0.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/CMSIS/Include/cmsis_version.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/system_stm32f0xx.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc_ex.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio_ex.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_exti.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma_ex.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_flash_ex.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h
-ece6780_p4_noahlomu\stm32f0xx_hal_cortex.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h
+ece6780_p4_noahlomu/stm32f0xx_hal_cortex.o: \
+  ..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_cortex.c \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal.h \
+  ..\Core\Inc\stm32f0xx_hal_conf.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_rcc.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_def.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f072xb.h \
+  ..\Drivers\CMSIS\Include\core_cm0.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
+  C:\Users\noahl\Documents\College\ECE\ 6780\Lab4\ECE6780_Lab04\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\noahl\Documents\College\ECE\ 6780\Lab4\ECE6780_Lab04\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\noahl\Documents\College\ECE\ 6780\Lab4\ECE6780_Lab04\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\stddef.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_rcc_ex.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_gpio.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_gpio_ex.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_exti.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_dma.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_dma_ex.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_cortex.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_flash.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_flash_ex.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_i2c.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_i2c_ex.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_pwr.h \
+  ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_pwr_ex.h
